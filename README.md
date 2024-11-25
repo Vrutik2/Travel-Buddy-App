@@ -85,8 +85,9 @@ After installation, the app can be used to:
 - **Home → Explore Attractions**: Discover attractions on a map.
 - **Home → Currency Converter**: Access currency rates.
 - **Settings → Any Screen**: Manage profile or settings and return.
+  
 
-![Project Wireframe](https://github.com/user-attachments/assets/64eda451-0a19-4cf5-846e-4486f40096bb)
+![Wireframe](https://github.com/user-attachments/assets/0d5ed7b8-d347-44f5-99e0-4bc4ed978f63)
 
 
 ## Presentation
