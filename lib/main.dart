@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
-import 'screens/login_screen.dart';
-import 'services/auth_service.dart';
+import 'package:travel_buddy_app/screens/login_screen.dart';
+import 'package:travel_buddy_app/services/auth_service.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -20,11 +20,12 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => AuthService()),
       ],
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         title: 'Travel Buddy',
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: const LoginScreen(),
+        home: const LoginScreen(), // Entry point for your app
       ),
     );
   }
