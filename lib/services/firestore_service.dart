@@ -5,7 +5,6 @@ import '../models/itinerary.dart';
 class FirestoreService {
   final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
-  // User Profile Methods
   Future<void> createUserProfile(UserProfile profile) async {
     await _firestore.collection('users').doc(profile.uid).set(profile.toMap());
   }
@@ -25,7 +24,6 @@ class FirestoreService {
         .update(profile.toMap());
   }
 
-  // Itinerary Methods
   Future<String> createItinerary(Itinerary itinerary) async {
     final doc = await _firestore.collection('itineraries').add(itinerary.toMap());
     return doc.id;
@@ -54,7 +52,6 @@ class FirestoreService {
     await _firestore.collection('itineraries').doc(itineraryId).delete();
   }
 
-  // Travel Buddy Methods
   Stream<List<UserProfile>> getPotentialTravelBuddies(
     String userId,
     List<String> interests,

@@ -33,14 +33,12 @@ class HomeScreen extends StatelessWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              // Welcome Section
               Text(
                 'Welcome back,\n${authService.user?.email?.split('@')[0] ?? 'Traveler'}!',
                 style: Theme.of(context).textTheme.headlineMedium,
               ),
               const SizedBox(height: 24),
               
-              // Quick Actions Grid
               GridView.count(
                 shrinkWrap: true,
                 physics: const NeverScrollableScrollPhysics(),
@@ -93,7 +91,6 @@ class HomeScreen extends StatelessWidget {
               
               const SizedBox(height: 24),
               
-              // Recent Activity Section
               Text(
                 'Recent Activity',
                 style: Theme.of(context).textTheme.titleLarge,
@@ -160,7 +157,7 @@ class HomeScreen extends StatelessWidget {
       child: ListView.builder(
         shrinkWrap: true,
         physics: const NeverScrollableScrollPhysics(),
-        itemCount: 3, // We'll replace this with actual data later
+        itemCount: 3, 
         itemBuilder: (context, index) {
           return ListTile(
             leading: CircleAvatar(
@@ -176,10 +173,10 @@ class HomeScreen extends StatelessWidget {
                 : 'Connected with a travel buddy',
             ),
             subtitle: const Text(
-              '2 hours ago', // We'll replace with actual timestamps
+              '2 hours ago', 
             ),
             onTap: () {
-              // Handle tapping on recent activity
+              
             },
           );
         },

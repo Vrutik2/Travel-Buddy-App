@@ -33,7 +33,6 @@ class _ItineraryPlannerScreenState extends State<ItineraryPlannerScreen> {
       setState(() {
         if (isStartDate) {
           _startDate = picked;
-          // Reset end date if it's before new start date
           if (_endDate != null && _endDate!.isBefore(_startDate!)) {
             _endDate = null;
           }
@@ -72,7 +71,7 @@ class _ItineraryPlannerScreenState extends State<ItineraryPlannerScreen> {
           Provider.of<FirebaseProvider>(context, listen: false);
 
       final itinerary = Itinerary(
-        id: '', // Will be set by Firestore
+        id: '', 
         userId: authService.user!.uid,
         destination: _destination,
         startDate: _startDate!,

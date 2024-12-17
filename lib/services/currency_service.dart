@@ -1,4 +1,3 @@
-// lib/services/currency_service.dart
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
@@ -11,22 +10,20 @@ class CurrencyService {
     'CAD', 'CHF', 'CNY', 'HKD', 'NZD', 'SGD'
   ];
 
-  // Currency symbols for display
   static const Map<String, String> currencySymbols = {
-    'USD': '\$',    // US Dollar
-    'EUR': '€',     // Euro
-    'GBP': '£',     // British Pound
-    'JPY': '¥',     // Japanese Yen
-    'AUD': 'A\$',   // Australian Dollar
-    'CAD': 'C\$',   // Canadian Dollar
-    'CHF': 'Fr',    // Swiss Franc
-    'CNY': '¥',     // Chinese Yuan
-    'HKD': 'HK\$',  // Hong Kong Dollar
-    'NZD': 'NZ\$',  // New Zealand Dollar
-    'SGD': 'S\$',   // Singapore Dollar
+    'USD': '\$',    
+    'EUR': '€',   
+    'GBP': '£',     
+    'JPY': '¥',    
+    'AUD': 'A\$',   
+    'CAD': 'C\$',  
+    'CHF': 'Fr',   
+    'CNY': '¥',    
+    'HKD': 'HK\$', 
+    'NZD': 'NZ\$',  
+    'SGD': 'S\$',   
   };
 
-  // Full names of currencies
   static const Map<String, String> currencyNames = {
     'USD': 'US Dollar',
     'EUR': 'Euro',
@@ -68,7 +65,7 @@ class CurrencyService {
 
   Future<Map<String, dynamic>> getHistoricalRates(DateTime date) async {
     try {
-      final dateStr = date.toString().split(' ')[0]; // Format: YYYY-MM-DD
+      final dateStr = date.toString().split(' ')[0];
       final response = await http.get(
         Uri.parse(
           '$baseUrl/historical'
@@ -106,21 +103,18 @@ class CurrencyService {
     try {
       if (from == to) return amount;
 
-      // If converting from USD
       if (from == 'USD') {
         final rate = rates['USD$to'];
         if (rate == null) throw Exception('Rate not found for $to');
         return amount * rate;
       }
 
-      // If converting to USD
       if (to == 'USD') {
         final rate = rates['USD$from'];
         if (rate == null) throw Exception('Rate not found for $from');
         return amount / rate;
       }
 
-      // Cross conversion (through USD)
       final fromRate = rates['USD$from'];
       final toRate = rates['USD$to'];
       if (fromRate == null || toRate == null) {

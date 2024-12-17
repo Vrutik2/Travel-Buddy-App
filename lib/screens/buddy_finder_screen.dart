@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-import '../provider/firebase_provider.dart';  // Fix import path
+import '../provider/firebase_provider.dart';  
 import '../models/user_profile.dart';
 import 'chat_screen.dart';
 
@@ -30,7 +30,7 @@ class _BuddyFinderScreenState extends State<BuddyFinderScreen> {
           ),
         ],
       ),
-      body: StreamBuilder<List<UserProfile>>(  // This is now properly typed
+      body: StreamBuilder<List<UserProfile>>(  
         stream: firebaseProvider.getPotentialTravelBuddies(
           authService.user!.uid,
           selectedInterests,
@@ -132,7 +132,6 @@ class _BuddyFinderScreenState extends State<BuddyFinderScreen> {
               children: [
                 TextButton(
                   onPressed: () {
-                    // View full profile
                   },
                   child: const Text('View Profile'),
                 ),

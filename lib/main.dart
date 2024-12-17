@@ -1,4 +1,3 @@
-// lib/main.dart
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:provider/provider.dart';
@@ -36,7 +35,6 @@ class MyApp extends StatelessWidget {
       home: Consumer<AuthService>(
         builder: (context, authService, _) {
           if (authService.user != null) {
-            // Initialize FirebaseProvider when user is authenticated
             context.read<FirebaseProvider>().initialize();
             return HomeScreen();
           }

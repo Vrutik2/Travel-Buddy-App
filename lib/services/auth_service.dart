@@ -27,13 +27,11 @@ class AuthService with ChangeNotifier {
       _isLoading = true;
       notifyListeners();
 
-      // Create user with email and password
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      // Create user profile in Firestore
       if (result.user != null) {
         await _firestore.collection('users').doc(result.user!.uid).set({
           'name': name,

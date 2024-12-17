@@ -35,7 +35,6 @@ class _ActivityCreationScreenState extends State<ActivityCreationScreen> {
       setState(() {
         if (isStartTime) {
           _startTime = picked;
-          // If end time is before start time, update it
           if (_endTime.hour < _startTime.hour ||
               (_endTime.hour == _startTime.hour &&
                   _endTime.minute < _startTime.minute)) {
@@ -72,7 +71,6 @@ class _ActivityCreationScreenState extends State<ActivityCreationScreen> {
         (it) => it.id == widget.itineraryId,
       );
 
-      // Calculate the actual date for this day number
       final activityDate = itinerary.startDate.add(
         Duration(days: widget.dayNumber - 1),
       );

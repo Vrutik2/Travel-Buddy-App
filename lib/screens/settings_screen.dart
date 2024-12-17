@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../services/auth_service.dart';
-import 'login_screen.dart';  // Updated import
+import 'login_screen.dart';  
 
 class SettingsScreen extends StatelessWidget {
   const SettingsScreen({super.key});
@@ -19,9 +19,8 @@ class SettingsScreen extends StatelessWidget {
           ListTile(
             leading: const Icon(Icons.person),
             title: const Text('Profile'),
-            subtitle: Text(authService.user?.email ?? ''),  // Updated to use user instead of currentUser
+            subtitle: Text(authService.user?.email ?? ''),  
             onTap: () {
-              // Navigate to profile editing screen
             },
           ),
           const ListTile(
@@ -39,7 +38,7 @@ class SettingsScreen extends StatelessWidget {
               await authService.signOut();
               if (context.mounted) {
                 Navigator.of(context).pushAndRemoveUntil(
-                  MaterialPageRoute(builder: (_) => const LoginScreen()),  // Updated to LoginScreen
+                  MaterialPageRoute(builder: (_) => const LoginScreen()), 
                   (route) => false,
                 );
               }

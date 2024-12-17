@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import '../provider/firebase_provider.dart';  // Fix import path
+import '../provider/firebase_provider.dart'; 
 import 'chat_screen.dart';
 import '../services/auth_service.dart';
 
@@ -16,7 +16,7 @@ class ChatListScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('Messages'),
       ),
-      body: StreamBuilder<List<ChatPreview>>(  // Fixed StreamBuilder type
+      body: StreamBuilder<List<ChatPreview>>(  
         stream: firebaseProvider.getUserChats(authService.user!.uid),
         builder: (context, snapshot) {
           if (snapshot.hasError) {

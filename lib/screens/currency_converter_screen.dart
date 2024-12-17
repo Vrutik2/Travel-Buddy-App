@@ -53,7 +53,6 @@ class _CurrencyConverterScreenState extends State<CurrencyConverterScreen> {
       return;
     }
 
-    // Since API always returns USD based rates, we need to calculate cross-rates
     if (_fromCurrency == 'USD') {
       final rate = _exchangeRates!['USD$_toCurrency'] ?? 1.0;
       setState(() => _result = amount * rate);
@@ -61,7 +60,6 @@ class _CurrencyConverterScreenState extends State<CurrencyConverterScreen> {
       final rate = _exchangeRates!['USD$_fromCurrency'] ?? 1.0;
       setState(() => _result = amount / rate);
     } else {
-      // Cross rate calculation
       final fromRate = _exchangeRates!['USD$_fromCurrency'] ?? 1.0;
       final toRate = _exchangeRates!['USD$_toCurrency'] ?? 1.0;
       setState(() => _result = amount * (toRate / fromRate));

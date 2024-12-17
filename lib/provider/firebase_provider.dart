@@ -2,7 +2,6 @@ import 'package:flutter/foundation.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:travel_buddy_app/models/place.dart';
-import 'package:travel_buddy_app/services/places_service.dart';
 import '../models/chat_message.dart';
 import '../models/user_profile.dart';
 import '../models/itinerary.dart';
@@ -41,7 +40,6 @@ class FirebaseProvider with ChangeNotifier {
     }
   }
 
-  // User Profile Methods
   Future<UserProfile?> getUserProfile(String userId) async {
     try {
       final doc = await _firestore.collection('users').doc(userId).get();
@@ -58,7 +56,7 @@ class FirebaseProvider with ChangeNotifier {
   Future<void> updateUserProfile(UserProfile profile) async {
     try {
       await _firestore.collection('users').doc(profile.uid).update(profile.toMap());
-      await loadUserInterests(); // Reload interests after update
+      await loadUserInterests(); 
       notifyListeners();
     } catch (e) {
       print('Error updating user profile: $e');
@@ -66,20 +64,16 @@ class FirebaseProvider with ChangeNotifier {
     }
   }
 
-  // Travel Buddies Methods
   Stream<List<UserProfile>> getPotentialTravelBuddies(
     String userId,
     List<String> interests,
   ) {
     try {
       Query<Map<String, dynamic>> query = _firestore.collection('users');
-      // First filter out the current user
       query = query.where(FieldPath.documentId, isNotEqualTo: userId);
-      // Add interests filter if any interests are selected
       if (interests.isNotEmpty) {
         query = query.where('interests', arrayContainsAny: interests);
       }
-      // Return the stream mapped to UserProfile objects
       return query.snapshots().map((snapshot) {
         return snapshot.docs.map((doc) {
           return UserProfile.fromMap({
@@ -94,7 +88,6 @@ class FirebaseProvider with ChangeNotifier {
     }
   }
 
-  // Itinerary Methods
   Future<String> createNewItinerary(Itinerary itinerary) async {
     final doc = await _firestore.collection('itineraries').add(itinerary.toMap());
     await loadUserItineraries(itinerary.userId);
@@ -144,7 +137,6 @@ class FirebaseProvider with ChangeNotifier {
     }
   }
 
-  // In FirebaseProvider class
 Future<void> reorderActivities(
   String itineraryId, 
   int dayNumber, 
@@ -185,7 +177,6 @@ Future<void> reorderActivities(
   }
 }
 
-// Add this method to your FirebaseProvider class
 Future<void> deleteActivity(
   String itineraryId,
   int dayNumber,
@@ -226,7 +217,6 @@ Future<void> deleteActivity(
   }
 }
 
-// Add this method to your FirebaseProvider class
 Future<void> updateActivity(
   String itineraryId,
   int dayNumber,
@@ -247,7 +237,6 @@ Future<void> updateActivity(
     final updatedDays = List<ItineraryDay>.from(itinerary.days);
     final activities = List<Activity>.from(updatedDays[dayIndex].activities);
     
-    // Find the index of the activity to update
     final activityIndex = activities.indexWhere((a) => 
       a.name == oldActivity.name && 
       a.startTime == oldActivity.startTime && 
@@ -256,7 +245,6 @@ Future<void> updateActivity(
     
     if (activityIndex == -1) throw Exception('Activity not found');
     
-    // Update the activity
     activities[activityIndex] = newActivity;
 
     updatedDays[dayIndex] = ItineraryDay(
@@ -298,7 +286,6 @@ Future<void> addPlaceToItinerary(
   }
 }
 
-  // Chat Methods
   Stream<List<ChatMessage>> getChatMessages(String userId1, String userId2) {
     final chatId = _createChatId(userId1, userId2);
 
@@ -365,7 +352,6 @@ Future<void> addPlaceToItinerary(
     });
   }
 
-  // Helper Methods
   Future<void> _updateUserChatList(
     String userId,
     String otherUserId,

@@ -1,4 +1,3 @@
-// lib/screens/place_details_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:travel_buddy_app/models/place.dart';
@@ -348,7 +347,6 @@ class _PlaceDetailsScreenState extends State<PlaceDetailsScreen> {
                             padding: EdgeInsets.only(right: 8),
                             child: InkWell(
                               onTap: () {
-                                // Open photo viewer
                               },
                               child: Image.network(
                                 _placesService.getPhotoUrl(_photoReferences[index]),

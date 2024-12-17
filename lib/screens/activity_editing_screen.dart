@@ -1,4 +1,3 @@
-// lib/screens/activity_edit_screen.dart
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import '../models/itinerary.dart';
@@ -101,7 +100,7 @@ class _ActivityEditScreenState extends State<ActivityEditScreen> {
           const SnackBar(content: Text('Activity updated successfully!')),
         );
         Navigator.pop(context);
-        Navigator.pop(context); // Pop back to itinerary details
+        Navigator.pop(context); 
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -149,7 +148,7 @@ class _ActivityEditScreenState extends State<ActivityEditScreen> {
           const SnackBar(content: Text('Activity deleted successfully!')),
         );
         Navigator.pop(context);
-        Navigator.pop(context); // Pop back to itinerary details
+        Navigator.pop(context); 
       }
     } catch (e) {
       ScaffoldMessenger.of(context).showSnackBar(

@@ -4,7 +4,6 @@ import 'package:travel_buddy_app/screens/activity_details_screen.dart';
 import '../models/itinerary.dart';
 import '../provider/firebase_provider.dart';
 import 'activity_creation_screen.dart';
-import 'activity_details_screen.dart';
 
 class ItineraryDetailScreen extends StatelessWidget {
   final String itineraryId;
@@ -126,14 +125,12 @@ class ItineraryDetailScreen extends StatelessWidget {
               child: Text('No activities planned yet'),
             )
           else
-            // Replace the ReorderableListView.builder in _buildDayCard with:
           ReorderableListView.builder(
             shrinkWrap: true,
             physics: const NeverScrollableScrollPhysics(),
             itemCount: day.activities.length,
             onReorder: (int oldIndex, int newIndex) async {
               try {
-                // Adjust newIndex for removal of item
                 if (newIndex > oldIndex) newIndex--;
                 
                 await Provider.of<FirebaseProvider>(context, listen: false)
