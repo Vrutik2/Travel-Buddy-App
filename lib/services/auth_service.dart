@@ -1,93 +1,85 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/foundation.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
 class AuthService with ChangeNotifier {
   final FirebaseAuth _auth = FirebaseAuth.instance;
-
-  User? _user;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
   bool _isLoading = false;
-  String? _errorMessage;
-
-  User? get user => _user;
-  bool get isLoading => _isLoading;
-  String? get errorMessage => _errorMessage;
+  User? _user;
 
   AuthService() {
-    // Listen for auth state changes
-    _auth.authStateChanges().listen((User? firebaseUser) {
-      _user = firebaseUser;
+    _auth.authStateChanges().listen((User? user) {
+      _user = user;
       notifyListeners();
     });
   }
 
-  /// **Sign Up Method**
+  bool get isLoading => _isLoading;
+  User? get user => _user;
+
   Future<bool> signUp({
     required String email,
     required String password,
     required String name,
   }) async {
     try {
-      _setLoading(true);
+      _isLoading = true;
+      notifyListeners();
 
-      // Firebase Auth Sign-Up
-      final UserCredential userCredential = await _auth.createUserWithEmailAndPassword(
+      // Create user with email and password
+      final UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
         password: password,
       );
 
-      _user = userCredential.user;
-
-      // Update Display Name
-      await _user!.updateDisplayName(name);
-      await _user!.reload();
-
-      _setErrorMessage(null);
-      return true; // Success
-    } on FirebaseAuthException catch (e) {
-      _setErrorMessage(e.message);
-      return false; // Failure
+      // Create user profile in Firestore
+      if (result.user != null) {
+        await _firestore.collection('users').doc(result.user!.uid).set({
+          'name': name,
+          'email': email,
+          'created_at': FieldValue.serverTimestamp(),
+          'interests': [],
+        });
+        return true;
+      }
+      return false;
+    } catch (e) {
+      print('Sign up error: $e');
+      return false;
     } finally {
-      _setLoading(false);
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
-  /// **Sign In Method**
   Future<bool> signIn({
     required String email,
     required String password,
   }) async {
     try {
-      _setLoading(true);
+      _isLoading = true;
+      notifyListeners();
 
-      // Firebase Auth Sign-In
-      await _auth.signInWithEmailAndPassword(email: email, password: password);
-
-      _setErrorMessage(null);
-      return true; // Success
-    } on FirebaseAuthException catch (e) {
-      _setErrorMessage(e.message);
-      return false; // Failure
+      await _auth.signInWithEmailAndPassword(
+        email: email,
+        password: password,
+      );
+      return true;
+    } catch (e) {
+      print('Sign in error: $e');
+      return false;
     } finally {
-      _setLoading(false);
+      _isLoading = false;
+      notifyListeners();
     }
   }
 
-  /// **Sign Out Method**
   Future<void> signOut() async {
-    await _auth.signOut();
-    _user = null;
-    notifyListeners();
-  }
-
-  /// **Loading State Handler**
-  void _setLoading(bool loading) {
-    _isLoading = loading;
-    notifyListeners();
-  }
-
-  /// **Error Message Handler**
-  void _setErrorMessage(String? message) {
-    _errorMessage = message;
-    notifyListeners();
+    try {
+      await _auth.signOut();
+    } catch (e) {
+      print('Sign out error: $e');
+    }
   }
 }

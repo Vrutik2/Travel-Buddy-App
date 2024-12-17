@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
-import 'package:travel_buddy_app/services/auth_service.dart' as auth;
-import 'package:travel_buddy_app/screens/home_screen.dart';
+import '../services/auth_service.dart';
+import 'home_screen.dart';
+import 'signup_screen.dart';  // Add this import
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
-
+  
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
@@ -17,8 +18,8 @@ class _LoginScreenState extends State<LoginScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final authService = Provider.of<auth.AuthService>(context);
-
+    final authService = Provider.of<AuthService>(context);
+    
     return Scaffold(
       appBar: AppBar(
         title: const Text('Login'),
@@ -66,25 +67,42 @@ class _LoginScreenState extends State<LoginScreen> {
                       email: _emailController.text.trim(),
                       password: _passwordController.text.trim(),
                     );
-
                     if (success && mounted) {
                       Navigator.pushReplacement(
                         context,
-                        MaterialPageRoute(builder: (_) => const HomeScreen()),
+                        MaterialPageRoute(builder: (_) => HomeScreen()),
                       );
                     } else {
                       ScaffoldMessenger.of(context).showSnackBar(
                         const SnackBar(
-                            content: Text('Login failed! Check credentials.')),
+                          content: Text('Login failed! Check credentials.'),
+                        ),
                       );
                     }
                   }
                 },
                 style: ElevatedButton.styleFrom(
-                    minimumSize: const Size.fromHeight(50)),
+                  minimumSize: const Size.fromHeight(50),
+                ),
                 child: authService.isLoading
                     ? const CircularProgressIndicator(color: Colors.white)
                     : const Text('Login'),
+              ),
+              const SizedBox(height: 16),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  const Text("Don't have an account?"),
+                  TextButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(builder: (_) => const SignupScreen()),
+                      );
+                    },
+                    child: const Text('Sign Up'),
+                  ),
+                ],
               ),
             ],
           ),

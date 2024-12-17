@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:travel_buddy_app/providers/app_provider.dart';
+import 'package:travel_buddy_app/provider/app_provider.dart';
 import 'package:travel_buddy_app/services/auth_service.dart';
 import 'package:travel_buddy_app/screens/home_screen.dart';
 
@@ -202,7 +202,7 @@ class _SignupScreenState extends State<SignupScreen> {
                                   Navigator.pushReplacement(
                                     context,
                                     MaterialPageRoute(
-                                      builder: (_) => const HomeScreen(),
+                                      builder: (_) => HomeScreen(),
                                     ),
                                   );
                                 }
